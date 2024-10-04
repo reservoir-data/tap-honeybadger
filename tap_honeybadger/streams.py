@@ -148,31 +148,43 @@ class Teams(HoneybadgerStream):
         th.Property("id", th.IntegerType),
         th.Property("name", th.StringType),
         th.Property("created_at", th.DateTimeType),
-        th.Property("owner", th.ObjectType(
-            th.Property("id", th.IntegerType),
-            th.Property("email", th.StringType),
-            th.Property("name", th.StringType),
-        )),
-        th.Property("members", th.ArrayType(
+        th.Property(
+            "owner",
             th.ObjectType(
                 th.Property("id", th.IntegerType),
-                th.Property("created_at", th.DateTimeType),
-                th.Property("admin", th.BooleanType),
-                th.Property("name", th.StringType),
                 th.Property("email", th.StringType),
-            )
-        )),
-        th.Property("projects", th.ArrayType(
-            th.ObjectType(
-                th.Property("id", th.IntegerType),
                 th.Property("name", th.StringType),
-                th.Property("created_at", th.DateTimeType),
             ),
-        )),
-        th.Property("invitations", th.ArrayType(
-            th.ObjectType(
-                th.Property("id", th.IntegerType),
+        ),
+        th.Property(
+            "members",
+            th.ArrayType(
+                th.ObjectType(
+                    th.Property("id", th.IntegerType),
+                    th.Property("created_at", th.DateTimeType),
+                    th.Property("admin", th.BooleanType),
+                    th.Property("name", th.StringType),
+                    th.Property("email", th.StringType),
+                )
             ),
-        )),
+        ),
+        th.Property(
+            "projects",
+            th.ArrayType(
+                th.ObjectType(
+                    th.Property("id", th.IntegerType),
+                    th.Property("name", th.StringType),
+                    th.Property("created_at", th.DateTimeType),
+                ),
+            ),
+        ),
+        th.Property(
+            "invitations",
+            th.ArrayType(
+                th.ObjectType(
+                    th.Property("id", th.IntegerType),
+                ),
+            ),
+        ),
         th.Property("project_id", th.IntegerType),
     ).to_dict()
