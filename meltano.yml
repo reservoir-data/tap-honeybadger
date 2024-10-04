@@ -1,0 +1,35 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: tap-honeybadger
+default_environment: dev
+environments:
+- name: dev
+venv:
+  backend: uv
+plugins:
+  extractors:
+  - name: tap-honeybadger
+    label: Honeybadger
+    namespace: honeybadger
+    description: Application monitoring that helps developers get it done.
+    repository: https://github.com/reservoir-data/tap-honeybadger
+    docs: https://github.com/reservoir-data/tap-honeybadger#readme
+    pip_url: -e .
+    capabilities:
+    - state
+    - catalog
+    - discover
+    - about
+    - stream-maps
+
+    settings:
+    - name: auth_token
+      kind: password
+      label: Auth Token
+      description: The Honeybadger personal authentication token.
+      sensitive: true
+
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
