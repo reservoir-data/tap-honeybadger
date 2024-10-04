@@ -16,7 +16,6 @@ class HoneybadgerStream(RESTStream[t.Any]):
 
     url_base = "https://app.honeybadger.io"
     records_jsonpath = "$.results[*]"
-    # next_page_token_jsonpath = "$.next_page"  # noqa: S105
 
     @property
     def authenticator(self) -> HTTPBasicAuth:
