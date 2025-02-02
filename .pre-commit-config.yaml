@@ -33,3 +33,6 @@ repos:
     hooks:
     - id: check-dependabot
     - id: check-github-workflows
+      language: python
+      additional_dependencies:
+      - pyjson5==1.6.8
