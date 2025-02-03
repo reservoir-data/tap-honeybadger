@@ -9,12 +9,11 @@ venv:
 plugins:
   extractors:
   - name: tap-honeybadger
-    label: Honeybadger
     namespace: honeybadger
-    description: Application monitoring that helps developers get it done.
-    repository: https://github.com/reservoir-data/tap-honeybadger
+    label: Honeybadger
     docs: https://github.com/reservoir-data/tap-honeybadger#readme
     pip_url: -e .
+    description: Application monitoring that helps developers get it done.
     capabilities:
     - state
     - catalog
@@ -24,11 +23,12 @@ plugins:
 
     settings:
     - name: auth_token
-      kind: password
+      kind: string
       label: Auth Token
       description: The Honeybadger personal authentication token.
       sensitive: true
 
+    repository: https://github.com/reservoir-data/tap-honeybadger
   loaders:
   - name: target-jsonl
     variant: andyh1203
