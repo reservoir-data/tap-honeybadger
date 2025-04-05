@@ -101,6 +101,7 @@ addopts = [
   "-vvv",
   "--durations=10",
 ]
+filterwarnings = [ "error" ]
 
 [tool.mypy]
 enable_error_code = [

@@ -186,5 +186,4 @@ class Teams(HoneybadgerStream):
                 ),
             ),
         ),
-        th.Property("project_id", th.IntegerType),
     ).to_dict()
