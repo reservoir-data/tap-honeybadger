@@ -28,7 +28,7 @@ plugins:
       description: The Honeybadger personal authentication token.
       sensitive: true
 
-    repository: https://github.com/reservoir-data/tap-honeybadger
+    repo: https://github.com/reservoir-data/tap-honeybadger
   loaders:
   - name: target-jsonl
     variant: andyh1203
