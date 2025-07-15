@@ -106,6 +106,36 @@ filterwarnings = [
   "default:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
 ]
 
+[tool.tox]
+min_version = "4.22"
+requires = [
+  "tox",
+  "tox-uv",
+]
+env_list = [
+  "dependencies",
+  "typing",
+  "3.14",
+  "3.13",
+  "3.12",
+  "3.11",
+  "3.10",
+]
+
+[tool.tox.env_run_base]
+runner = "uv-venv-lock-runner"
+pass_env = [ "TAP_HONEYBADGER_*" ]
+dependency_groups = [ "testing" ]
+commands = [ [ "pytest", { replace = "posargs", default = [ "tests" ], extend = true } ] ]
+
+[tool.tox.env.dependencies]
+dependency_groups = [ "testing" ]
+commands = [ [ "deptry", "." ] ]
+
+[tool.tox.env.typing]
+dependency_groups = [ "testing", "typing" ]
+commands = [ [ "mypy", "--strict", { replace = "posargs", default = [ "tap_honeybadger", "tests" ], extend = true } ] ]
+
 [tool.mypy]
 enable_error_code = [
   "ignore-without-code",
