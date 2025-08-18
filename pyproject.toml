@@ -35,7 +35,7 @@ dynamic = [
 ]
 dependencies = [
   "requests>=2,<3",
-  "singer-sdk~=0.47.1",
+  "singer-sdk~=0.48.0",
 ]
 urls.Documentation = "https://github.com/reservoir-data/tap-honeybadger#readme"
 urls.Homepage = "https://github.com/reservoir-data/tap-honeybadger"
