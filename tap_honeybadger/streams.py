@@ -2,14 +2,28 @@
 
 from __future__ import annotations
 
-import typing as t
+from typing import TYPE_CHECKING, Any, override
 
+from requests.auth import HTTPBasicAuth
+from singer_sdk import RESTStream
 from singer_sdk import typing as th
 
-from tap_honeybadger.client import HoneybadgerStream
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
-if t.TYPE_CHECKING:
     from singer_sdk.helpers.types import Context, Record
+
+
+class HoneybadgerStream(RESTStream[Any]):
+    """Honeybadger stream class."""
+
+    url_base = "https://app.honeybadger.io"
+    records_jsonpath = "$.results[*]"
+
+    @override
+    @property
+    def authenticator(self) -> HTTPBasicAuth:
+        return HTTPBasicAuth(self.config["auth_token"], password="")
 
 
 class Accounts(HoneybadgerStream):
@@ -42,7 +56,7 @@ class Projects(HoneybadgerStream):
         th.Property("active", th.BooleanType),
         th.Property("created_at", th.DateTimeType),
         th.Property("earliest_notice_at", th.DateTimeType),
-        th.Property("environments", th.ArrayType(th.StringType)),
+        th.Property("environments", th.ArrayType(th.StringType())),
         th.Property("fault_count", th.IntegerType),
         th.Property("last_notice_at", th.DateTimeType),
         th.Property("name", th.StringType),
@@ -90,11 +104,12 @@ class Projects(HoneybadgerStream):
         ),
     ).to_dict()
 
+    @override
     def generate_child_contexts(
         self,
         record: Record,
-        context: Context | None = None,  # noqa: ARG002
-    ) -> t.Generator[Context, None, None]:
+        context: Context | None = None,
+    ) -> Generator[Context, None, None]:
         """Generate child contexts for a record."""
         yield {"project_id": record["id"]}
 
@@ -131,7 +146,7 @@ class Faults(HoneybadgerStream):
         th.Property("notices_count", th.IntegerType),
         th.Property("project_id", th.IntegerType),
         th.Property("resolved", th.BooleanType),
-        th.Property("tags", th.ArrayType(th.StringType)),
+        th.Property("tags", th.ArrayType(th.StringType())),
         th.Property("url", th.StringType),
     ).to_dict()
 
