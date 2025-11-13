@@ -21,11 +21,9 @@ maintainers = [
 authors = [
   { name = "Edgar Ramírez-Mondragón", email = "edgarrmondragon@hey.com" },
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -54,7 +52,9 @@ testing = [
 ]
 typing = [
   "mypy",
+  "ty>=0.0.1a26",
   "types-requests",
+  { include-group = "testing" },
 ]
 
 [tool.hatch.version]
@@ -66,7 +66,7 @@ preview = true
 required-version = ">=0.5.19"
 
 [tool.ruff]
-line-length = 88
+line-length = 100
 lint.select = [
   "ALL",
 ]
@@ -123,8 +123,6 @@ env_list = [
   "3.14",
   "3.13",
   "3.12",
-  "3.11",
-  "3.10",
 ]
 
 [tool.tox.env_run_base]
@@ -139,7 +137,10 @@ commands = [ [ "deptry", "." ] ]
 
 [tool.tox.env.typing]
 dependency_groups = [ "testing", "typing" ]
-commands = [ [ "mypy", "--strict", { replace = "posargs", default = [ "tap_honeybadger", "tests" ], extend = true } ] ]
+commands = [
+  [ "mypy", "--strict", "tap_honeybadger", "tests" ],
+  [ "ty", "check", "tap_honeybadger", "tests" ],
+]
 
 [tool.mypy]
 enable_error_code = [
