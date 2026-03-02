@@ -22,6 +22,9 @@ on:
   # Run weekly on Monday at 12:00 PM UTC
   - cron: "0 12 * * 1"
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}
 
