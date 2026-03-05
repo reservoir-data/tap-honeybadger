@@ -2,6 +2,7 @@ name: Build and publish
 
 on:
   push:
+    tags: ["*"]
 
 jobs:
   build:
@@ -10,7 +11,8 @@ jobs:
     permissions:
       contents: read
     outputs:
-      package_version: ${{ steps.baipp.outputs.package_version }}
+      name: ${{ steps.baipp.outputs.package_name }}
+      version: ${{ steps.baipp.outputs.package_version }}
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - uses: hynek/build-and-inspect-python-package@efb823f52190ad02594531168b7a2d5790e66516 # v2.14.0
@@ -18,12 +20,11 @@ jobs:
 
   publish:
     name: Publish to PyPI
-    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-24.04
     needs: build
     environment:
       name: pypi
-      url: https://pypi.org/project/tap-honeybadger/${{ needs.build.outputs.package_version }}
+      url: https://pypi.org/project/${{ needs.build.outputs.name }}/${{ needs.build.outputs.version }}
     permissions:
       contents: write
       id-token: write
