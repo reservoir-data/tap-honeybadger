@@ -8,14 +8,14 @@ on:
     - tests/**
     - pyproject.toml
     - uv.lock
-    - .github/workflows/test.yml
+    - .github/workflows/test.yaml
   pull_request:
     paths:
     - tap_honeybadger/**
     - tests/**
     - pyproject.toml
     - uv.lock
-    - .github/workflows/test.yml
+    - .github/workflows/test.yaml
   workflow_dispatch:
   schedule:
   # Run weekly on Monday at 12:00 PM UTC
