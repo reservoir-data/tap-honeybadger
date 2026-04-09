@@ -37,7 +37,7 @@ file = "LICENSE"
 name = "Edgar Ramírez-Mondragón"
 email = "edgarrm358@gmail.com"
 [project.scripts]
-"tap-honeybadger" = "tap_honeybadger.tap:TapHoneybadger.cli"
+tap-honeybadger = "tap_honeybadger.tap:TapHoneybadger.cli"
 [project.urls]
 Documentation = "https://github.com/reservoir-data/tap-honeybadger#readme"
 Homepage = "https://github.com/reservoir-data/tap-honeybadger"
@@ -50,7 +50,7 @@ dev = [
 ]
 testing = [
   "deptry>=0.12",
-  "pytest>=8",
+  "pytest>=9",
   "singer-sdk[testing]",
 ]
 typing = [
@@ -60,12 +60,12 @@ typing = [
   { include-group = "testing" },
 ]
 
-[tool.hatch]
 [tool.hatch.version]
+fallback-version = "0.1.0.dev0"
 source = "vcs"
 
 [tool.uv]
-required-version = ">=0.5.19"
+required-version = ">=0.10"
 prerelease = "allow"
 preview = true
 
@@ -91,61 +91,15 @@ unfixable = [
   "ERA001", # commented-out-code
 ]
 flake8-annotations.allow-star-arg-any = true
-isort.known-first-party = [
-  "tap_honeybadger",
-]
-isort.required-imports = [
-  "from __future__ import annotations",
-]
 pydocstyle.convention = "google"
 
-[tool.deptry]
 [tool.deptry.package_module_name_map]
 mypy = "mypy"
+ty = "ty"
 types-requests = "requests"
 
 [tool.pyproject-fmt]
-max_supported_python = "3.14"
 table_format = "long"
-
-[tool.pytest]
-[tool.pytest.ini_options]
-addopts = [
-  "-vvv",
-  "--durations=10",
-]
-filterwarnings = [
-  "error",
-  "default:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning",
-]
-
-[tool.tox]
-min_version = "4.43"
-requires = [
-  "tox",
-  "tox-uv",
-]
-env_list = [
-  "dependencies",
-  "typing",
-  { product = [
-    { prefix = "3.", start = 12 },
-  ] },
-]
-[tool.tox.env]
-dependencies.dependency_groups = [ "testing" ]
-dependencies.commands = [ [ "deptry", "." ] ]
-typing.dependency_groups = [ "testing", "typing" ]
-typing.commands = [
-  [ "mypy", "--strict", "tap_honeybadger", "tests" ],
-  [ "ty", "check", "tap_honeybadger", "tests" ],
-]
-
-[tool.tox.env_run_base]
-runner = "uv-venv-lock-runner"
-pass_env = [ "TAP_HONEYBADGER_*" ]
-dependency_groups = [ "testing" ]
-commands = [ [ "pytest", { replace = "posargs", default = [ "tests" ], extend = true } ] ]
 
 [tool.mypy]
 enable_error_code = [
@@ -153,9 +107,57 @@ enable_error_code = [
   "redundant-expr",
   "truthy-bool",
 ]
+strict = true
 warn_redundant_casts = true
 warn_return_any = true
 warn_no_return = true
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+[tool.pytest]
+addopts = [
+  "-v",
+  "-ra",
+]
+filterwarnings = [
+  "error",
+]
+log_level = "INFO"
+minversion = "9"
+strict = true
+testpaths = [ "tests" ]
+
+[tool.tox]
+requires = [
+  "tox>=4.51",
+  "tox-uv",
+]
+env_list = [
+  "dependencies",
+  "typing",
+  "test",
+]
+[tool.tox.env.dependencies]
+description = "check for unused, missing and transitive dependencies"
+dependency_groups = [ "testing" ]
+labels = [ "check" ]
+commands = [ [ "deptry", "." ] ]
+[tool.tox.env.test]
+base_python_file = [ ".python-version" ]
+[tool.tox.env.typing]
+description = "type checks with mypy and ty"
+dependency_groups = [ "testing", "typing" ]
+labels = [ "check" ]
+commands = [
+  [ "mypy", "tap_honeybadger", "tests" ],
+  [ "ty", "check", "tap_honeybadger", "tests" ],
+]
+
+[tool.tox.env_run_base]
+description = "run tests on Python {py_dot_ver}"
+labels = [ "test" ]
+runner = "uv-venv-lock-runner"
+pass_env = [ "TAP_HONEYBADGER_*" ]
+dependency_groups = [ "testing" ]
+commands = [ [ "pytest", { replace = "posargs", default = [ "tests" ], extend = true } ] ]
