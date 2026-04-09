@@ -78,7 +78,7 @@ jobs:
         uvx
         --with tox-uv==${TOX_UV_VERSION}
         --with tox==${TOX_VERSION}
-          tox -e ${MATRIX_PYTHON_VERSION}
+        tox -e ${MATRIX_PYTHON_VERSION}
 
   static:
     name: Static Analysis
