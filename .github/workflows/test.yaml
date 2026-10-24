@@ -48,6 +48,7 @@ jobs:
             - 'pyproject.toml'
             - 'uv.lock'
             - '.github/workflows/test.yaml'
+            - '.python-version'
 
   build-package:
     name: Build & verify package
