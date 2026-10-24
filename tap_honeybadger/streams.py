@@ -112,7 +112,7 @@ class Projects(HoneybadgerStream):
         self,
         record: Record,
         context: Context | None = None,
-    ) -> Generator[Context, None, None]:
+    ) -> Generator[Context]:
         """Generate child contexts for a record."""
         yield {"project_id": record["id"]}
 
