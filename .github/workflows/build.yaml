@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     name: Build wheel and sdist
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       name: ${{ steps.baipp.outputs.package_name }}
       version: ${{ steps.baipp.outputs.package_version }}
@@ -31,7 +31,7 @@ jobs:
 
   publish:
     name: Publish to PyPI
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build
     environment:
       name: pypi

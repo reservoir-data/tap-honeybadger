@@ -31,7 +31,7 @@ env:
 jobs:
   files-changed:
     name: Detect file changes
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       runtime: ${{ steps.changes.outputs.runtime }}
     steps:
@@ -54,7 +54,7 @@ jobs:
     name: Build & verify package
     needs: files-changed
     if: ${{ needs.files-changed.outputs.runtime == 'true' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
     steps:
@@ -66,7 +66,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: build-package
     strategy:
       fail-fast: false
@@ -96,7 +96,7 @@ jobs:
     name: Static Analysis
     needs: files-changed
     if: ${{ needs.files-changed.outputs.runtime == 'true' }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -116,7 +116,7 @@ jobs:
 
   pre-commit:
     name: pre-commit hooks
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
@@ -140,7 +140,7 @@ jobs:
     - test
     - static
     - pre-commit
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - name: Decide whether the needed jobs succeeded or failed
       uses: re-actors/alls-green@b5b5b37504aa4183270bd3d855c52a67f212be35 # v1.3.0
