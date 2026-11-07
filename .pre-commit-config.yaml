@@ -15,21 +15,21 @@ repos:
       - id: pyproject-fmt
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.17.2
+    rev: v0.17.3
     hooks:
       - id: ruff-check
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
       - id: ruff-format
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.38.2
+    rev: 0.39.0
     hooks:
     - id: check-github-workflows
     - id: check-meltano
     - id: check-renovate
       language: python
       additional_dependencies:
-      - pyjson5==2.0.0
+      - pyjson5==2.0.1
 
   - repo: https://github.com/astral-sh/uv-pre-commit
     rev: "0.13.5"
